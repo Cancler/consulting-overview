@@ -1,30 +1,3 @@
-<template>
-    <table class="table">
-        <tbody>
-            <tr class="clickable" @click="$emit('back')">
-                <td class="icon-row">
-                    <IconFolderOpen class="icon-folder"/>
-                </td>
-            </tr>
-            <tr
-                v-for="file in files"
-                :key="file.name"
-                :class="{clickable: file.directory}"
-                @click="on_file_click(file)"
-            >
-                <td class="icon-row">
-                    <IconFolder v-if="file.directory" class="icon-folder"/>
-                    <IconFile v-else class="icon-file"/>
-                </td>
-                <td class="text-left">{{ file.name }}</td>
-                <td>
-                    <span class="float-end">{{ file.size }}</span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</template>
-
 <script setup>
 // ############################################################################
 
@@ -51,6 +24,33 @@ const on_file_click = file => {
 
 // ############################################################################
 </script>
+
+<template>
+    <table class="table">
+        <tbody>
+            <tr class="clickable" @click="$emit('back')">
+                <td class="icon-row">
+                    <IconFolderOpen class="icon-folder"/>
+                </td>
+            </tr>
+            <tr
+                v-for="file in files"
+                :key="file.name"
+                :class="{clickable: file.directory}"
+                @click="on_file_click(file)"
+            >
+                <td class="icon-row">
+                    <IconFolder v-if="file.directory" class="icon-folder"/>
+                    <IconFile v-else class="icon-file"/>
+                </td>
+                <td class="text-left">{{ file.name }}</td>
+                <td>
+                    <span class="float-end">{{ file.size }}</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</template>
 
 <style>
 .clickable{

@@ -1,21 +1,3 @@
-<template>
-    <div class="container mt-2">
-        <h4>{{ path }}</h4>
-        <div class="form-group mt-4 mb-2">
-            <input
-                v-model="search_string"
-                class="form-control form-control-sm"
-                placeholder="File search"
-            />
-        </div>
-        <FilesViewer
-            :files="filtered_files"
-            @back="back"
-            @on_folder_click="open($event.name)"
-        />
-    </div>
-</template>
-
 <script setup>
 // ############################################################################
 
@@ -80,11 +62,25 @@ const back = () => {
 }
 
 // ############################################################################
-
-console.log(path);
-console.log(files);
-
 </script>
+
+<template>
+    <div class="container mt-2">
+        <h4>{{ path }}</h4>
+        <div class="form-group mt-4 mb-2">
+            <input
+                v-model="search_string"
+                class="form-control form-control-sm"
+                placeholder="File search"
+            />
+        </div>
+        <FilesViewer
+            :files="filtered_files"
+            @back="back"
+            @on_folder_click="open($event.name)"
+        />
+    </div>
+</template>
 
 <style>
 #app {
