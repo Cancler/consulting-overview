@@ -3,7 +3,13 @@ module.exports = defineConfig({
     transpileDependencies: true,
     pluginOptions: {
         electronBuilder: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            builderOptions: {
+                appId: 'com.cancler.consulting-overview',
+                publish: {
+                    provider: "github"
+                }
+            }
         }
     }
 })

@@ -4,6 +4,7 @@ import { app, protocol, BrowserWindow } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 const isDevelopment = process.env.NODE_ENV !== 'production'
+const { updater } = require("./updater")
 
 require('@electron/remote/main').initialize()
 
@@ -13,6 +14,10 @@ protocol.registerSchemesAsPrivileged([
 ])
 
 async function createWindow() {
+
+    // Check for app updates after 3 Seconds
+    setTimeout(updater, 3000)
+
     // Create the browser window.
     const win = new BrowserWindow({
         width: 800,
