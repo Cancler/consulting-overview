@@ -3,12 +3,12 @@ import path from 'path';
 import { DataTypes, Model, Sequelize } from 'sequelize';
 
 
-const univ_db = path.join(remote.app.getPath("userData"), "database.db")
+const db = path.join(remote.app.getPath("userData"), "database.db")
 
 // set up the connection to make sure it works
 const sequelize = new Sequelize({
     dialect: 'sqlite',
-    storage: univ_db,
+    storage: db,
     logging: (process.env.NODE_ENV !== 'production'),
     define: {
         timestamps: false,
@@ -21,8 +21,21 @@ const sequelize = new Sequelize({
 class Topic extends Model {
     id
     name
+
+    constructor(values, options) {
+        super(values, options);
+
+        // All fields should be here!
+        this.id = this.getDataValue('id');
+        this.name = this.getDataValue('name');
+    }
 }
 Topic.init({
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true,
+    },
     name: {
         type: DataTypes.STRING,
         allowNull: false
@@ -35,6 +48,6 @@ Topic.init({
     createdAt: "created_at"
 })
 
-sequelize.sync({alter: true})
+Topic.sync({alter: true})
 
 export { sequelize, Topic };

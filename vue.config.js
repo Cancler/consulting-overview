@@ -8,6 +8,7 @@ module.exports = defineConfig({
     },
     pluginOptions: {
         electronBuilder: {
+            externals: ["sequelize"],
             nodeIntegration: true,
             builderOptions: {
                 appId: 'com.cancler.consulting-overview',
