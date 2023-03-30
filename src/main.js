@@ -2,10 +2,11 @@ import { createApp } from 'vue';
 import App from './App.vue';
 import { createPinia } from 'pinia';
 import 'bootstrap/dist/css/bootstrap.min.css';
-
 import { sequelize } from "@/stores/db";
+
 sequelize.authenticate()
     .then(() => {
+
         console.log("connected");
     })
     .catch((err) => {

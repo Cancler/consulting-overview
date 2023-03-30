@@ -3,7 +3,6 @@
 import { remote } from "electron";
 import path from 'path';
 import {DataTypes, Model, Sequelize} from 'sequelize';
-import * as Console from "console";
 
 // ############################################################################
 
@@ -162,10 +161,10 @@ Appointment.init({
 
 class Consulting extends Model {
     id
+    age_id
     topic_id
     setting_id
     audience_id
-    age_id
     child_count
     parent_count
     teacher_count
@@ -179,10 +178,10 @@ class Consulting extends Model {
         super(values, options);
 
         this.id = this.getDataValue("id");
+        this.age_id = this.getDataValue("age_id");
         this.topic_id = this.getDataValue("topic_id");
         this.setting_id = this.getDataValue("setting_id");
         this.audience_id = this.getDataValue("audience_id");
-        this.age_id = this.getDataValue("age_id");
         this.child_count = this.getDataValue("child_count");
         this.parent_count = this.getDataValue("parent_count");
         this.teacher_count = this.getDataValue("teacher_count");
@@ -240,7 +239,40 @@ Consulting.init({
     createdAt: "created_at",
     updatedAt: "updated_at",
 })
-Consulting.hasOne()
+
+// ############################################################################
+
+Age.hasMany(Consulting, {
+    foreignKey: {
+        allowNull: false,
+        name: "age_id"
+    }
+});
+Consulting.belongsTo(Age);
+
+Topic.hasMany(Consulting, {
+    foreignKey: {
+        allowNull: false,
+        name: "topic_id"
+    }
+});
+Consulting.belongsTo(Topic);
+
+Setting.hasMany(Consulting, {
+    foreignKey: {
+        allowNull: false,
+        name: "setting_id"
+    }
+});
+Consulting.belongsTo(Setting);
+
+Audience.hasMany(Consulting, {
+    foreignKey: {
+        allowNull: false,
+        name: "audience_id"
+    }
+})
+Consulting.belongsTo(Audience);
 
 // ############################################################################
 
@@ -251,6 +283,105 @@ Audience.sync({alter: true})
 Appointment.sync({alter: true})
 Consulting.sync({alter: true})
 
+// const setup_db = async () => {
+//     // await Age.destroy({
+//     //     where: {},
+//     //     truncate: true
+//     // });
+//     await Age.bulkCreate([
+//         {from: 6, to: 9},
+//         {from: 9, to: 12},
+//         {from: 12, to: 14},
+//         {from: 14, to: 16},
+//         {from: 16, to: 18},
+//         {from: 18, to: 25},
+//         {from: 6},
+//         {from: 7},
+//         {from: 8},
+//         {from: 9},
+//         {from: 10},
+//         {from: 11},
+//         {from: 12},
+//         {from: 13},
+//         {from: 14},
+//         {from: 15},
+//         {from: 16},
+//         {from: 17},
+//         {from: 18},
+//         {from: 19},
+//         {from: 20},
+//         {from: 21},
+//         {from: 22},
+//         {from: 23},
+//         {from: 24},
+//         {from: 25},
+//         {from: 26},
+//         {from: 27}
+//     ])
+//
+//     // await Topic.destroy({
+//     //     where: {},
+//     //     truncate: true
+//     // });
+//     await Topic.bulkCreate([
+//         {name: "Arbeitslosigkeit"},
+//         {name: "Ausgrenzung"},
+//         {name: "Drogen"},
+//         {name: "Essstörung"},
+//         {name: "Extremismus"},
+//         {name: "familiäre Probleme"},
+//         {name: "Gender"},
+//         {name: "Geschlechterspezifisch"},
+//         {name: "Gewalt"},
+//         {name: "Interkultur"},
+//         {name: "Leistungsdruck"},
+//         {name: "Mobbing/Cybermobbing"},
+//         {name: "Onlinesexting"},
+//         {name: "persönliche Probleme"},
+//         {name: "physische Gewalt"},
+//         {name: "psychische Gewalt"},
+//         {name: "Religion"},
+//         {name: "Schulabstinenz"},
+//         {name: "Schulangst"},
+//         {name: "selbstverletzendes Verhalten"},
+//         {name: "Sexualität"},
+//         {name: "Sonstiges"},
+//         {name: "soziales Kompetenztraining"},
+//         {name: "soziales Verhalten"}
+//     ]);
+//     // await Audience.destroy({
+//     //     where: {},
+//     //     truncate: true
+//     // });
+//     await Audience.bulkCreate([
+//         {name: "Erziehungsberechtigte"},
+//         {name: "Familie"},
+//         {name: "Hortler:innen"},
+//         {name: "junge Erwachsene"},
+//         {name: "Kind und Erziehungsberechtigte"},
+//         {name: "Kinder und Jugendliche"},
+//         {name: "Lehrer:innen"}
+//     ])
+//     // await Setting.destroy({
+//     //     where: {},
+//     //     truncate: true
+//     // });
+//     await Setting.bulkCreate([
+//         {name: "Erziehungsberechtigte"},
+//         {name: "Familienberatung"},
+//         {name: "Gruppenberatung"},
+//         {name: "Hortler:innen"},
+//         {name: "Kind/ Jugendliche:r"},
+//         {name: "Kinder und Erziehungsberechtigte"},
+//         {name: "Lehrer:innen"},
+//         {name: "Lehrer:innen und Erziehungsberechtigte"},
+//         {name: "Lehrer:innen und Kind/ Jugendliche:r"}
+//     ])
+//
+//
+// };
+// setup_db()
+
 // ############################################################################
 
-export { sequelize, Topic, Setting, Age, Audience, Appointment };
+export { sequelize, Topic, Setting, Age, Audience, Appointment, Consulting };
