@@ -1,45 +1,44 @@
-import { defineStore } from 'pinia'
+import { defineStore } from 'pinia';
 import { ref } from "vue";
 import { Topic } from "@/stores/db";
 
 export const useTopicStore = defineStore("topic", () => {
-    const topics = ref([])
+    const topics = ref([]);
 
-    async function loadTopics(){
-        topics.value = await Topic.findAll()
-    }
-    async function addTopic(name){
+    const loadTopics = async () => {
+        topics.value = await Topic.findAll();
+    };
+    const addTopic = async (name) => {
         const topic = await Topic.create({
             name: name
-        })
-        console.log(topic)
+        });
         topics.value.push(topic);
-    }
-    async function deleteTopicById(id){
+    };
+    const deleteTopicById = async (id) => {
         await Topic.destroy({
             where: {
                 id: id
             }
-        })
+        });
         const topic_to_remove_index = topics.value.findIndex(topic => {
-            return topic["id"] === id
-        })
-        topics.value.splice(topic_to_remove_index, 1)
-    }
-    async function getTopicById(id){
-        return await Topic.findByPk(id)
-    }
-    async function updateTopicById(id, name){
+            return topic["id"] === id;
+        });
+        topics.value.splice(topic_to_remove_index, 1);
+    };
+    const getTopicById = async (id) => {
+        return await Topic.findByPk(id);
+    };
+    const updateTopicById = async (id, name) => {
         await Topic.update({name: name}, {
             where: {
                 id: id
             }
-        })
+        });
         const topic = topics.value.find(topic => {
-            return topic["id"] === id
-        })
-        topic.name = name
-    }
+            return topic["id"] === id;
+        });
+        topic.name = name;
+    };
 
     return {
         topics,
@@ -48,5 +47,5 @@ export const useTopicStore = defineStore("topic", () => {
         deleteTopicById,
         getTopicById,
         updateTopicById
-    }
-})
+    };
+});

@@ -1,19 +1,19 @@
 // Modules
-const { dialog } = require("electron")
-const { autoUpdater } = require("electron-updater")
+const { dialog } = require("electron");
+const { autoUpdater } = require("electron-updater");
 
 // Configure log debugging
-autoUpdater.logger = require("electron-log")
-autoUpdater.logger.transports.file.level = "debug"
+autoUpdater.logger = require("electron-log");
+autoUpdater.logger.transports.file.level = "debug";
 
 // Disable auto downloading of updates
-autoUpdater.autoDownload = false
+autoUpdater.autoDownload = false;
 
 // Single export to check for and apply any available updates
 export const updater = () => {
 
     // Check for update (GH Releases)
-    autoUpdater.checkForUpdates()
+    autoUpdater.checkForUpdates();
 
     // Listen for update found
     autoUpdater.on("update-available", () => {
@@ -28,14 +28,14 @@ export const updater = () => {
             noLink: true
         })
             .then(result => {
-                let button_index = result.response
+                let button_index = result.response;
 
                 // If button 0 (Update), start downloading the update
                 if(button_index === 0){
-                    autoUpdater.downloadUpdate()
+                    autoUpdater.downloadUpdate();
                 }
-            })
-    })
+            });
+    });
 
     // Listen for update downloaded
     autoUpdater.on("update-downloaded", () => {
@@ -49,13 +49,12 @@ export const updater = () => {
             noLink: true
         })
             .then(result => {
-                let button_index = result.response
+                let button_index = result.response;
 
                 // Install & restart If button 0 (Yes)
                 if(button_index === 0){
-                    autoUpdater.quitAndInstall(false, true)
+                    autoUpdater.quitAndInstall(false, true);
                 }
-            })
-    })
-
-}
+            });
+    });
+};
